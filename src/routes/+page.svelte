@@ -14,6 +14,10 @@
     const pw = urlParams.get('pw');
     const nm = urlParams.get('name');
     name = nm
+
+    if (!un || !pw) {
+      return alert('You must pass a username (un) and password (pw) in the url params.')
+    }
     
     loading = true
     const res = await fetch(`/api/tasks?un=${un}&pw=${pw}${nm ? '&name=' + nm : ''}`)
@@ -39,22 +43,30 @@
     <div id="loader-wrapper">
       <div id="loader"></div>
     </div>
+  {:else if myTasks.length === 0}
+    <div id="empty-tasks">Currently no tasks... Try pressing "Refresh"</div>
+  {:else if !loading}
+    {#each myTasks as date}
+      <div class="date-header"><h1>{date.date}</h1></div>
+      <div class="flex">
+        {#each date.tasks as task}
+          {#if (showWC && task.subtitle.includes('WC') && !task.subtitle.includes('WH')) || (showWH && task.subtitle.includes('WH') && !task.subtitle.includes('WC'))}
+            <Task {task} {name} />
+          {/if}
+        {/each}
+      </div>
+    {/each}
   {/if}
-
-  {#each myTasks as date}
-    <div class="date-header"><h1>{date.date}</h1></div>
-    <div class="flex">
-      {#each date.tasks as task}
-        {#if (showWC && task.subtitle.includes('WC') && !task.subtitle.includes('WH')) || (showWH && task.subtitle.includes('WH') && !task.subtitle.includes('WC'))}
-          <Task {task} {name} />
-        {/if}
-      {/each}
-    </div>
-  {/each}
 
 </div>
 
 <style>
+  #empty-tasks {
+    text-align: center;
+    padding-block: 8rem;
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    color: #ccc;
+  }
   .flex {
     display: flex;
     flex-direction: row;

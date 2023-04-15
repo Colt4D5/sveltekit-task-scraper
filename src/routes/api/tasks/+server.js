@@ -32,11 +32,11 @@ async function scrape(url, name = 'My', username, password) {
   console.log('Logging in...')
 
   await page.waitForSelector('[name="UserID"]')
-  await page.type('[name="UserID"]', username, {delay: 50})
+  await page.type('[name="UserID"]', username, {delay: 5})
 
   
   await page.waitForSelector('[name="Password"]')
-  await page.type('[name="Password"]', password, {delay: 50})
+  await page.type('[name="Password"]', password, {delay: 5})
   
   const [response] = await Promise.all([
     page.waitForNavigation('[data-action="submit:login"]'),
