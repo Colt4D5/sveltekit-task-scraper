@@ -1,38 +1,24 @@
-# create-svelte
+# Scrape your Workamajig tasks
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Instructions:
+- clone this repo and run with `npm start` (or `pnpm start`)
+navigate to: 
+    
+    http:localhost:3333?un={your wam username or email (-`.com`)}&pw={wam password}&name={whatever you'd like it to call you}
 
-## Creating a project
+  - when inputting your email address, do not include the `.com` in the email (because it sometimes breaks the link)
+  - the `name` parameter is optional, but a nice touch, if you ask me ;)
+- Once it's running you can just press the refresh button to reload the latest tasks
 
-If you're seeing this, you've probably already done this step. Congrats!
+If you have trouble with port conflicts just update the dev script in the package.json to say `--port {desired port}`
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Chromedriver
+A chromedriver is no longer needed to run the headless browser, but if you do need it, it can be downloaded from the following link: [https://chromedriver.chromium.org/downloads](https://chromedriver.chromium.org/downloads)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+This chromedriver, when downloaded and unzipped, must be placed somewhere where you $PATH environment variable can find it. The natural place is `/usr/bin/`.
 
-## Developing
+tip: for easy access you can alias in your .rc file to start the server up with a command. For example:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+    alias tasks=cd /Users/{username}/path/to/scraper && npm run dev
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+tech: Sveltekit, Puppeteer
