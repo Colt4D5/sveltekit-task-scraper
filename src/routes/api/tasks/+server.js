@@ -55,7 +55,7 @@ async function scrape(url, name = 'My', username, password) {
   console.log('Writing tasks...')
 
   for (const date of dates) {
-    const title = await page.evaluate(el => el.querySelector('h2').textContent, date)
+    const title = await page.evaluate(el => el.querySelector('h2')?.textContent, date)
     taskArr.push({ date: title, tasks: [] })
 
     let tasks 
@@ -64,11 +64,11 @@ async function scrape(url, name = 'My', username, password) {
 
     // console.log(title)
     for (const task of tasks) {
-      const taskTitle = await page.evaluate(el => el.querySelector('button[data-action="openProjectDash"]').textContent, task)
+      const taskTitle = await page.evaluate(el => el.querySelector('button[data-action="openProjectDash"]')?.textContent, task)
 
       const taskSubtitle = await page.evaluate(el => el.querySelector('.mutedDark.pad-b-s').textContent, task)
 
-      const taskTime = await page.evaluate(el => el.querySelector('.i-time.icon-l.italic.inline-block.pad-t-s.pad-r-l').textContent.split('h')[0], task)
+      const taskTime = await page.evaluate(el => el.querySelector('.i-time.icon-l.italic.inline-block.pad-t-s.pad-r-l')?.textContent.split('h')[0], task)
 
       // const taskDetails = await page.evaluate(el => el.querySelector('.pad-b-s.textflow > span').innerText, task)
       async function getTaskDeets() {
@@ -82,9 +82,9 @@ async function scrape(url, name = 'My', username, password) {
       }
       const taskDetails = await getTaskDeets();
       const taskObj = {
-        title: taskTitle,
+        title: taskTitle || 'No title...',
         subtitle: taskSubtitle,
-        time: taskTime,
+        time: taskTime || '?',
         details: taskDetails
       }
 
