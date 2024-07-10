@@ -68,7 +68,10 @@ async function scrape(url, name = 'My', username, password) {
 
       const taskSubtitle = await page.evaluate(el => el.querySelector('.mutedDark.pad-b-s').textContent, task)
 
-      const taskTime = await page.evaluate(el => el.querySelector('.i-time.icon-l.italic.inline-block.pad-t-s.pad-r-l')?.textContent.split('h')[0], task)
+      // const taskTime = await page.evaluate(el => el.querySelector('.i-time.icon-l.italic.inline-block.pad-t-s.pad-r-l')?.textContent.split('h')[0], task)
+      const taskTime = await page.evaluate(el => el.querySelectorAll('div.inline-block.pad-b-s.pad-r-l')[1]?.textContent.split('h')[0], task)
+
+      console.log(taskTime);
 
       // const taskDetails = await page.evaluate(el => el.querySelector('.pad-b-s.textflow > span').innerText, task)
       async function getTaskDeets() {
