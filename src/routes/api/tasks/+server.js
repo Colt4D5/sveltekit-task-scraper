@@ -69,11 +69,26 @@ async function scrape(url, name = 'My', username, password) {
       const taskSubtitle = await page.evaluate(el => el.querySelector('.mutedDark.pad-b-s').textContent, task)
 
       // const taskTime = await page.evaluate(el => el.querySelector('.i-time.icon-l.italic.inline-block.pad-t-s.pad-r-l')?.textContent.split('h')[0], task)
-      const taskTime = await page.evaluate(el => el.querySelectorAll('div.inline-block.pad-b-s.pad-r-l')[1]?.textContent.split('h')[0], task)
+      const taskTimes = await page.evaluate(el => {
+        const timeSpans = Array.from(el.querySelectorAll('.inline-block.pad-b-s.pad-r-l'));
+        const timeSpanMap = timeSpans.map(element => {
+          return element.textContent;
+        })
+        return timeSpanMap;
+      }, task);
 
-      console.log(taskTime);
+      let remainingTime = 0;
+      let totalTime = 0;
+      for (const [_, value] of Object.entries(taskTimes)) {
+        if (value.includes("h  remaining of")) {
+          remainingTime = value.split('h  remaining of ')[0];
+          totalTime = value.split('h  remaining of ')[1]?.split('h')[0];
+          // console.log(remainingTime, totalTime);
+        }
+      }
 
-      // const taskDetails = await page.evaluate(el => el.querySelector('.pad-b-s.textflow > span').innerText, task)
+      let taskTime = remainingTime !== totalTime ? remainingTime : `<u>${remainingTime}</u><br>${totalTime}`;
+
       async function getTaskDeets() {
         let taskDetails = 'Nope'
         try {

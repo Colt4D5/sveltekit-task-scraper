@@ -43,7 +43,7 @@
           <span class="task-title">{task.title}</span>
           <p class="task-name">{task.subtitle}</p>
         </div>
-        <div class="time-div"><p>{task.time}</p></div>
+        <div class="time-div"><p>{@html task.time}</p></div>
       </div>
       <div class="content">
         <div class="content_inner" on:click={copyToClipboard} on:keydown={copyToClipboard}>
@@ -142,6 +142,7 @@
   
   .time-div > p {
     font-size: clamp(1rem, 3vw, 2rem);
+    text-align: center;
     font-weight: 500;
   }
   
